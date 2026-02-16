@@ -67,4 +67,4 @@ app.post('/api/update-card', async (req, res) => {
 });
 
 // Force the server to listen on the IPv4 address
-app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on http://127.0.0.1:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));
