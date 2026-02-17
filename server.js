@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const path = require('path'); // Add this
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -11,10 +11,8 @@ const PORT = process.env.PORT || 5000; // Railway provides the PORT
 const NOTION_KEY = process.env.NOTION_KEY;
 const DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
-// --- NEW STUFF START ---
 // 1. Tell Express to serve the static files from the React build folder
 app.use(express.static(path.join(__dirname, 'build')));
-// --- NEW STUFF END ---
 
 app.get('/api/cards', async (req, res) => {
     try {
@@ -67,11 +65,9 @@ app.post('/api/update-card', async (req, res) => {
     }
 });
 
-// --- NEW STUFF START ---
 // 2. Handle any other requests by sending back the index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-// --- NEW STUFF END ---
 
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));
