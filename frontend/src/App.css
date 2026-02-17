@@ -1,0 +1,171 @@
+/* Notion Typography & Base */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #ffffff;
+  color: #37352f;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative; /* For absolute positioning of logout btn */
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: -0.01em;
+}
+
+/* --- NEW: Config Screen Styles --- */
+.config-container {
+  background-color: #f7f6f3; /* Light gray background for setup */
+}
+
+.config-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(55, 53, 47, 0.09);
+  box-shadow: 0 4px 20px rgba(15, 15, 15, 0.05);
+  max-width: 400px;
+  width: 90%;
+  text-align: left;
+}
+
+.config-card h2 { margin-top: 0; font-size: 24px; }
+.config-card p { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+.config-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid rgba(55, 53, 47, 0.16);
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: none;
+}
+
+.config-card input:focus {
+  border-color: #2eaadc; /* Notion blue highlight */
+}
+
+.help-text {
+  margin-top: 20px;
+  font-size: 0.75rem !important;
+  color: #adaba7 !important;
+  text-align: center;
+}
+
+/* --- NEW: Navigation/Header --- */
+.nav-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  color: #adaba7;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+}
+
+.logout-link:hover { 
+  color: #37352f; 
+  background: rgba(55, 53, 47, 0.08);
+  border-radius: 4px;
+}
+
+/* --- EXISTING: Flashcard Styles --- */
+.card-container {
+  perspective: 1000px;
+  width: 400px;
+  height: 280px;
+  margin-bottom: 30px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid rgba(55, 53, 47, 0.09);
+  box-shadow: rgba(15, 15, 15, 0.05) 0px 1px 2px;
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.card-front { background: white; }
+.card-back {
+  background: #f7f6f3;
+  transform: rotateY(180deg);
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.study-btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(55, 53, 47, 0.16);
+  font-weight: 600;
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.study-btn.again { color: #eb5757; }
+.study-btn.hard { color: #d9730d; }
+.study-btn.good { color: #2eaadc; }
+.study-btn.easy { color: #0f7b6c; }
+
+.study-btn:hover {
+  background: #f1f1f1;
+  transform: translateY(-2px);
+}
+
+.hint {
+  color: #adaba7;
+  font-size: 14px;
+  margin-top: 20px;
+}
