@@ -7,26 +7,33 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 5000; // Railway provides the PORT
-const NOTION_KEY = process.env.NOTION_KEY;
-const DATABASE_ID = process.env.NOTION_DATABASE_ID;
+const PORT = process.env.PORT || 5000;
 
-// 1. Tell Express to serve the static files from the React build folder
+// Tell Express to serve the static files from the React build folder
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/api/cards', async (req, res) => {
+    // Extract credentials from custom headers
+    const userKey = req.headers['x-notion-key'];
+    const userDbId = req.headers['x-notion-db-id'];
+
+    if (!userKey || !userDbId) {
+        return res.status(401).json({ error: "Notion Key or Database ID missing" });
+    }
+
     try {
-        const response = await fetch(`https://api.notion.com/v1/databases/${DATABASE_ID}/query`, {
+        const response = await fetch(`https://api.notion.com/v1/databases/${userDbId}/query`, {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${NOTION_KEY}`,
+                "Authorization": `Bearer ${userKey}`,
                 "Content-Type": "application/json",
                 "Notion-Version": "2022-06-28"
             },
             body: JSON.stringify({})
         });
+        
         const data = await response.json();
-        if (!response.ok) throw new Error(data.message);
+        if (!response.ok) throw new Error(data.message || "Failed to fetch from Notion");
 
         const cards = data.results.map(page => ({
             id: page.id,
@@ -36,17 +43,26 @@ app.get('/api/cards', async (req, res) => {
         }));
         res.json(cards);
     } catch (error) {
+        console.error("Fetch Error:", error.message);
         res.status(500).json({ error: error.message });
     }
 });
 
 app.post('/api/update-card', async (req, res) => {
     const { pageId, level, currentTimesStudied } = req.body;
+    
+    // Extract credentials from custom headers for the update too
+    const userKey = req.headers['x-notion-key'];
+
+    if (!userKey) {
+        return res.status(401).json({ error: "Notion Key missing" });
+    }
+
     try {
         const response = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
             method: "PATCH",
             headers: {
-                "Authorization": `Bearer ${NOTION_KEY}`,
+                "Authorization": `Bearer ${userKey}`,
                 "Content-Type": "application/json",
                 "Notion-Version": "2022-06-28"
             },
@@ -58,14 +74,20 @@ app.post('/api/update-card', async (req, res) => {
                 }
             })
         });
-        if (!response.ok) throw new Error("Failed to update Notion");
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Failed to update Notion");
+        }
+        
         res.json({ success: true });
     } catch (error) {
+        console.error("Update Error:", error.message);
         res.status(500).json({ error: error.message });
     }
 });
 
-// 2. Handle any other requests by sending back the index.html
+// Handle any other requests by sending back the index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
