@@ -93,7 +93,11 @@ function App() {
       <div className="App config-container">
         <div className="config-card">
           <h2>Connect Notion</h2>
-          <p>Enter your integration details to start studying.</p>
+          <p style={{fontSize: '14px', marginBottom: '20px'}}>
+            1. <a href="https://www.notion.so/30962270a2cc809c9cd7e8383f522e4e?v=30962270a2cc803bbdbd000ce73dd7c4&source=copy_link" target="_blank" rel="noreferrer" style={{color: '#2eaadc', fontWeight: '600'}}>Duplicate the Notion Template</a><br/>
+            2. Enter your credentials to start studying.
+          </p>
+
           <form onSubmit={handleSaveConfig}>
             <input 
               type="password"
@@ -109,9 +113,41 @@ function App() {
               onChange={(e) => setDbId(e.target.value)} 
               required
             />
-            <button type="submit" className="study-btn good">Connect & Fetch</button>
+            <button type="submit" className="study-btn good" style={{width: '100%', marginTop: '10px'}}>Connect & Fetch</button>
           </form>
-          <p className="help-text">Keys are stored locally in your browser.</p>
+
+          {/* This is the "Magic" button for HQ employees */}
+          <button 
+            onClick={() => {
+              setNotionKey('secret_your_demo_key'); // Replace with your actual demo secret
+              setDbId('30962270a2cc809c9cd7e8383f522e4e');
+            }}
+            style={{
+              background: 'none', 
+              border: 'none', 
+              color: '#adaba7', 
+              fontSize: '12px', 
+              cursor: 'pointer', 
+              marginTop: '15px',
+              textDecoration: 'underline'
+            }}
+          >
+            Or click here to use Demo Credentials
+          </button>
+
+          <p className="help-text" style={{marginTop: '20px'}}>Keys are stored locally in your browser.</p>
+        </div>
+
+        <div className="footer">
+          <p className="help-text">
+            Built by Sadnyani • ☕  
+            <a 
+              href="https://buymeacoffee.com/sadnyani" 
+              target="_blank" 
+              rel="noreferrer"
+              className="support-link"
+            >Support this project</a>
+          </p>
         </div>
       </div>
     );
@@ -123,6 +159,19 @@ function App() {
     <div className="App">
       <p>No cards found or database empty.</p>
       <button onClick={handleLogout} className="study-btn">Back to Setup</button>
+
+      <div className="footer">
+        <p className="help-text">
+          Built by Sadnyani • ☕  
+          <a 
+            href="https://buymeacoffee.com/sadnyani" 
+            target="_blank" 
+            rel="noreferrer"
+            className="support-link"
+          >Support this project
+          </a>
+        </p>
+      </div>
     </div>
   );
 
@@ -154,6 +203,19 @@ function App() {
       )}
       
       {!isFlipped && <p className="hint">Click the card to see the answer</p>}
+
+      <div className="footer">
+        <p className="help-text">
+          Built by Sadnyani • ☕  
+          <a 
+            href="https://buymeacoffee.com/sadnyani" 
+            target="_blank" 
+            rel="noreferrer"
+            className="support-link"
+          >Support this project
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

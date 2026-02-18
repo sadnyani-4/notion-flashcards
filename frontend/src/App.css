@@ -169,3 +169,26 @@ h1 {
   font-size: 14px;
   margin-top: 20px;
 }
+
+.footer {
+  margin-top: 40px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(55, 53, 47, 0.09);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  z-index: 10;
+}
+
+.support-link {
+  margin-left: 8px;
+  color: #d9730d; /* Notion's orange/brown for a "coffee" feel */
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.support-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
