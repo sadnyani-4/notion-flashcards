@@ -87,6 +87,26 @@ function App() {
     }, 150);
   };
 
+  const handleUseDemo = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch('/api/demo-credentials');
+      const data = await res.json();
+      if (data.notionKey && data.dbId) {
+        setNotionKey(data.notionKey);
+        setDbId(data.dbId);
+        // Optional: Automatically trigger the connection
+        localStorage.setItem('notion_key', data.notionKey);
+        localStorage.setItem('db_id', data.dbId);
+        setIsConfigured(true);
+      }
+    } catch (err) {
+      alert("Could not load demo credentials.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // --- RENDER CONFIG SCREEN ---
   if (!isConfigured) {
     return (
@@ -118,10 +138,8 @@ function App() {
 
           {/* This is the "Magic" button for HQ employees */}
           <button 
-            onClick={() => {
-              setNotionKey(''); // Replace with your actual demo secret
-              setDbId('30962270a2cc809c9cd7e8383f522e4e');
-            }}
+            type="button" // Important: set to type="button" so it doesn't trigger the form submit
+            onClick={handleUseDemo}
             style={{
               background: 'none', 
               border: 'none', 

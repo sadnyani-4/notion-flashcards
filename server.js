@@ -12,6 +12,14 @@ const PORT = process.env.PORT || 5000;
 // Tell Express to serve the static files from the React build folder
 app.use(express.static(path.join(__dirname, 'build')));
 
+// New endpoint to provide demo credentials to the frontend
+app.get('/api/demo-credentials', (req, res) => {
+    res.json({
+        notionKey: process.env.NOTION_KEY,
+        dbId: process.env.NOTION_DATABASE_ID
+    });
+});
+
 app.get('/api/cards', async (req, res) => {
     // Extract credentials from custom headers
     const userKey = req.headers['x-notion-key'];
