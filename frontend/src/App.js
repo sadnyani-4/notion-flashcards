@@ -119,7 +119,7 @@ function App() {
           {/* This is the "Magic" button for HQ employees */}
           <button 
             onClick={() => {
-              setNotionKey('secret_your_demo_key'); // Replace with your actual demo secret
+              setNotionKey('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'); // Replace with your actual demo secret
               setDbId('30962270a2cc809c9cd7e8383f522e4e');
             }}
             style={{
